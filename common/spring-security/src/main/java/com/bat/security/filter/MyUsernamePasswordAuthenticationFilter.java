@@ -29,10 +29,10 @@ public class MyUsernamePasswordAuthenticationFilter extends UsernamePasswordAuth
 
     private AuthenticationManager authenticationManager;
 
-    public MyUsernamePasswordAuthenticationFilter(TokenManager tokenManager, RedisTemplate redisTemplate, AuthenticationManager authenticationManager){
+    public MyUsernamePasswordAuthenticationFilter(AuthenticationManager authenticationManager, TokenManager tokenManager, RedisTemplate redisTemplate){
+        this.authenticationManager = authenticationManager;
         this.tokenManager = tokenManager;
         this.redisTemplate = redisTemplate;
-        this.authenticationManager = authenticationManager;
         this.setPostOnly(false);
         this.setRequiresAuthenticationRequestMatcher(new AntPathRequestMatcher("/admin/acl/login","POST"));
     }
