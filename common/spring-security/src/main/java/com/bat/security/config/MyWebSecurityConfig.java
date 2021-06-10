@@ -31,7 +31,7 @@ public class MyWebSecurityConfig extends WebSecurityConfigurerAdapter {
     private DefaultPasswordEncoder passwordEncoder;
 
     @Autowired
-    public MyWebSecurityConfig(TokenManager tokenManager, RedisTemplate redisTemplate, UserDetailsService userDetailsService, DefaultPasswordEncoder passwordEncoder){
+    public MyWebSecurityConfig(TokenManager tokenManager, RedisTemplate redisTemplate, UserDetailsService userDetailsService, DefaultPasswordEncoder passwordEncoder) {
         this.tokenManager = tokenManager;
         this.redisTemplate = redisTemplate;
         this.userDetailsService = userDetailsService;
@@ -52,11 +52,11 @@ public class MyWebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.exceptionHandling()
                 .authenticationEntryPoint(new UnauthEntryPoint())
-            .and().csrf().disable()
+                .and().csrf().disable()
                 .authorizeRequests()
                 .anyRequest().authenticated()
                 .and().logout().logoutUrl("/admin/acl/index/logout")
-            .and().addFilter(new MyUsernamePasswordAuthenticationFilter( authenticationManager(), tokenManager, redisTemplate))
+                .and().addFilter(new MyUsernamePasswordAuthenticationFilter(authenticationManager(), tokenManager, redisTemplate))
                 .addFilter(new TokenAuthFilter(authenticationManager(), tokenManager, redisTemplate))
                 .httpBasic();
     }

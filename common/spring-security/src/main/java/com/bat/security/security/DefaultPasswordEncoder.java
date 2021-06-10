@@ -9,10 +9,10 @@ public class DefaultPasswordEncoder implements PasswordEncoder {
 
 
     public DefaultPasswordEncoder(){
-
+        this(-1);
     }
 
-    public DefaultPasswordEncoder(int strength){
+    public DefaultPasswordEncoder(int strLength){
 
     }
 
@@ -22,7 +22,7 @@ public class DefaultPasswordEncoder implements PasswordEncoder {
     }
 
     @Override
-    public boolean matches(CharSequence charSequence, String s) {
-        return false;
+    public boolean matches(CharSequence charSequence, String currentPassword) {
+        return currentPassword.equals(this.encode(charSequence.toString()));
     }
 }

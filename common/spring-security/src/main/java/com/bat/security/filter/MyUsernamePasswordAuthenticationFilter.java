@@ -44,7 +44,6 @@ public class MyUsernamePasswordAuthenticationFilter extends UsernamePasswordAuth
         try{
             User user = new ObjectMapper().readValue(request.getInputStream(), User.class);
             return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword(), new ArrayList<>()));
-
         }catch (IOException e){
             e.printStackTrace();
             throw new RuntimeException();
@@ -56,14 +55,14 @@ public class MyUsernamePasswordAuthenticationFilter extends UsernamePasswordAuth
     protected void successfulAuthentication(HttpServletRequest request,
                                             HttpServletResponse response, FilterChain chain, Authentication authResult)
             throws IOException, ServletException {
-        //认证成功，得到认证成功之后用户信息
+        // 认证成功，得到认证成功之后用户信息
         SecurityUser user = (SecurityUser)authResult.getPrincipal();
-        //根据用户名生成token
+        // 根据用户名生成token
         String token = tokenManager.createToken(user.getCurrentUserInfo().getUsername());
-        //把用户名称和用户权限列表放到redis
+        // 把用户名称和用户权限列表放到redis
         redisTemplate.opsForValue().set(user.getCurrentUserInfo().getUsername(),user.getPermissionValueList());
-        //返回token
-        ResponseUtil.out(response, R.ok().data("token",token));
+        // 返回token
+        ResponseUtil.out(response, R.ok().data("token", token));
     }
 
     //3 认证失败调用的方法
