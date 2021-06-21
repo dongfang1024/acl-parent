@@ -55,6 +55,8 @@ public class MyWebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().csrf().disable()
                 .authorizeRequests()
                 .anyRequest().authenticated()
+                .and()
+                .headers().frameOptions().disable()
                 .and().logout().logoutUrl("/admin/acl/index/logout")
                 .and().addFilter(new MyUsernamePasswordAuthenticationFilter(authenticationManager(), tokenManager, redisTemplate))
                 .addFilter(new TokenAuthFilter(authenticationManager(), tokenManager, redisTemplate))

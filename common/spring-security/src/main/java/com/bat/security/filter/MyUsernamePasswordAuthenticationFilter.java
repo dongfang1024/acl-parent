@@ -6,6 +6,7 @@ import com.bat.security.entity.SecurityUser;
 import com.bat.security.entity.User;
 import com.bat.security.security.TokenManager;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.net.HttpHeaders;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -62,6 +63,7 @@ public class MyUsernamePasswordAuthenticationFilter extends UsernamePasswordAuth
         // 把用户名称和用户权限列表放到redis
         redisTemplate.opsForValue().set(user.getCurrentUserInfo().getUsername(),user.getPermissionValueList());
         // 返回token
+        response.setHeader(HttpHeaders.AUTHORIZATION, token);
         ResponseUtil.out(response, R.ok().data("token", token));
     }
 
